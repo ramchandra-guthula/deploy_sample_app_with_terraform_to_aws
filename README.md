@@ -22,6 +22,7 @@ This repository contains the code for an interview task that involves creating a
 
 # Implementation Overview
 Terraform Cloud is used to deploy the resources instead of deploying locally with the CLI to showcase the benefits of using Terraform Cloud. However, the code can also be run locally by configuring AWS CLI with Access Key and Secret Key, or on top of an EC2 instance where an IAM role is configured. This repository is configured with GitHub Actions to validate the Terraform code and ensure basic compliance.
+![S3 Endpoint architecture](vpc_end_point_arch.png)
 
 # Commands to use
 ```
