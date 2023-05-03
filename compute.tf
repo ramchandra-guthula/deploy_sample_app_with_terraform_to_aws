@@ -1,7 +1,7 @@
 
 
 resource "aws_instance" "task_instance" {
-  ami                    = data.aws_ami.ubuntu.id
+  ami                    = data.aws_ami.amazon_linux_2.id
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.myapp-private-subnet.id
   vpc_security_group_ids = [aws_security_group.ssh_connection.id]

@@ -1,17 +1,15 @@
-data "aws_ami" "ubuntu" {
+data "aws_ami" "amazon_linux_2" {
   most_recent = true
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
   }
 
   filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
+    name   = "owner-alias"
+    values = ["amazon"]
   }
-
-  owners = ["${var.account_id}"] # Canonical
 }
 
 data "aws_availability_zones" "available" {
