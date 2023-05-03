@@ -6,8 +6,9 @@ resource "aws_instance" "task_instance" {
   subnet_id              = aws_subnet.myapp-private-subnet.id
   vpc_security_group_ids = [aws_security_group.ssh_connection.id]
   iam_instance_profile   = aws_iam_instance_profile.instance_profile.name
-  metadata_options = {
-    http_tokens = required
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_put_response_hop_limit = 1
   }
   root_block_device {
     volume_size = var.ebs_volume_size
