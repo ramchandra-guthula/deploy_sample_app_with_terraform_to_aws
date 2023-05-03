@@ -1,20 +1,20 @@
-variable instance_type {
+variable "instance_type" {
   type        = string
   default     = "t2.micro"
   description = "Instance type used to create the instance"
 }
 
-variable ebs_volume_size {
+variable "ebs_volume_size" {
   type        = string
   default     = "8"
   description = "EBS volume size to your instance"
 }
 
 locals {
-    env_tags = {
-        name = "interview_test"
-        env  = "candidate_infra"
-    }
+  env_tags = {
+    name = "interview_test"
+    env  = "candidate_infra"
+  }
 }
 
 variable "vpc_name" {
@@ -37,7 +37,7 @@ variable "ip_ranges" {
     }
   ]
 }
-variable account_id {
+variable "account_id" {
   type        = string
   default     = "522486290510"
   description = "Account ID number"

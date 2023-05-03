@@ -35,15 +35,19 @@ resource "aws_iam_policy" "s3_policy" {
     Statement = [
       {
         Action = [
-                "s3:PutObject",
-                "s3:GetObjectAcl",
-                "s3:GetObject",
-                "s3:ListBucket",
-                "s3:PutBucketVersioning"
+          "s3:PutObject",
+          "s3:GetObjectAcl",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:PutBucketVersioning"
         ]
-        Effect   = "Allow"
-        Resource = "${aws_s3_bucket.python_script.arn}"
-      },
+        Effect = "Allow"
+        Resource = [
+          "${aws_s3_bucket.python_script.arn}",
+          "${aws_s3_bucket.python_script.arn}/*"
+
+        ]
+      }
     ]
   })
 }

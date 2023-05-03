@@ -1,10 +1,10 @@
 
 
-resource "aws_instance" "web" {
-  ami                       = data.aws_ami.ubuntu.id
-  instance_type             = var.instance_type
-  subnet_id                 = aws_subnet.myapp-private-subnet.id
-  vpc_security_group_ids    = [aws_security_group.ssh_connection.id]
+resource "aws_instance" "task_instance" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.myapp-private-subnet.id
+  vpc_security_group_ids = [aws_security_group.ssh_connection.id]
   root_block_device {
     volume_size = var.ebs_volume_size
     encrypted   = true
@@ -16,9 +16,9 @@ resource "aws_instance" "web" {
               sudo mount /dev/xvdf /mnt/interview_task
               sudo chown ec2-user:ec2-user /mnt/interview_task
               sudo yum -y install python3
-              aws s3 cp "s3://${aws_s3_bucket.python_script.id}/" .
+              aws s3 cp "s3://${aws_s3_bucket.python_script.bucket}/python_script.py" .
               python3 /mnt/interview_task/python_script.py > /mnt/interview_task/output.txt
-              aws s3 cp output.txt "s3://${aws_s3_bucket.python_script.id}/"
+              aws s3 cp output.txt "s3://${aws_s3_bucket.python_script.bucket}/"
               EOF
 
   ebs_block_device {
@@ -26,7 +26,7 @@ resource "aws_instance" "web" {
     volume_size = var.ebs_volume_size
   }
 
-  tags                       = locals.env_tags
+  tags = locals.env_tags
 }
 
 
@@ -38,7 +38,7 @@ resource "aws_security_group" "ssh_connection" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] #[aws_vpc.main.cidr_block]
+    cidr_blocks = ["10.0.0.0/8"] #[aws_vpc.main.cidr_block]
   }
 
   ingress {
@@ -46,14 +46,14 @@ resource "aws_security_group" "ssh_connection" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   tags = {
