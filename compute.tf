@@ -42,6 +42,7 @@ resource "aws_instance" "task_instance" {
 
 resource "aws_security_group" "ssh_connection" {
   name        = "interview-test-sg"
+  vpc_id      = aws_vpc.myapp-vpc.id
   description = "Allow SSH inbound traffic"
   ingress {
     description = "SSH from VPC"
