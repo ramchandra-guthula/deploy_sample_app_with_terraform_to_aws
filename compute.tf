@@ -6,6 +6,9 @@ resource "aws_instance" "task_instance" {
   subnet_id              = aws_subnet.myapp-private-subnet.id
   vpc_security_group_ids = [aws_security_group.ssh_connection.id]
   iam_instance_profile   = aws_iam_instance_profile.instance_profile.name
+  metadata_options = {
+    http_tokens = required
+  }
   root_block_device {
     volume_size = var.ebs_volume_size
     encrypted   = true
@@ -28,11 +31,11 @@ resource "aws_instance" "task_instance" {
   }
 
   tags = local.env_tags
-  depends_on = [
-    aws_iam_instance_profile.instance_profile,
-    aws_s3_bucket.python_script
+  # depends_on = [
+  #   aws_iam_instance_profile.instance_profile,
+  #   aws_s3_bucket.python_script
 
-  ]
+  # ]
 }
 
 

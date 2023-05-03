@@ -8,5 +8,5 @@ resource "aws_s3_bucket_object" "python_script" {
 resource "aws_s3_bucket" "python_script" {
   bucket = "python-script-interview-task"
 
-  tags = locals.env_tags
+  tags = local.env_tags
 }
