@@ -1,10 +1,10 @@
 
 
 resource "aws_instance" "web" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = var.instance_type
-  subnet_id   = aws_subnet.myapp-private-subnet.id
-  security_groups  = aws_security_group.ssh_connection.id
+  ami                       = data.aws_ami.ubuntu.id
+  instance_type             = var.instance_type
+  subnet_id                 = aws_subnet.myapp-private-subnet.id
+  vpc_security_group_ids    = [aws_security_group.ssh_connection.id]
   root_block_device {
     volume_size = var.ebs_volume_size
     encrypted   = true
@@ -26,15 +26,13 @@ resource "aws_instance" "web" {
     volume_size = var.ebs_volume_size
   }
 
-  tags = locals.env_tags
+  tags                       = locals.env_tags
 }
 
 
 resource "aws_security_group" "ssh_connection" {
   name        = "interview-test-sg"
   description = "Allow SSH inbound traffic"
-  vpc_security_group_ids = [aws_security_group.ssh_connection.id]
-
   ingress {
     description = "SSH from VPC"
     from_port   = 22

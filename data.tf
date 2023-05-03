@@ -11,7 +11,7 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = [""] # Canonical
+  owners = ["${var.account_id}"] # Canonical
 }
 
 data "aws_availability_zones" "available" {
