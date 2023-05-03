@@ -54,6 +54,15 @@ resource "aws_route_table" "myapp-public-subnet-rt" {
   }
 }
 
+resource "aws_route_table" "myapp-private-subnet-rt" {
+  vpc_id = aws_vpc.myapp-vpc.id
+
+  tags = {
+    Name = "${var.vpc_name}-private-subnet-rt"
+  }
+}
+
+
 resource "aws_route_table_association" "rt-association-public-subnet" {
   subnet_id      = aws_subnet.myapp-public-subnet.id
   route_table_id = aws_route_table.myapp-public-subnet-rt.id
